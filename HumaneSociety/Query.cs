@@ -174,24 +174,47 @@ namespace HumaneSociety
         {
             db.Animals.InsertOnSubmit(animal);
             db.SubmitChanges();
+<<<<<<< HEAD
             
            
 
+=======
+>>>>>>> c7881fb108bb2f52689624a2b2be32323a033327
         }
 
         internal static Animal GetAnimalByID(int id)
         {
-            throw new NotImplementedException();
+            Animal animalFromDb = db.Animals.Where(a => a.AnimalId == id).FirstOrDefault();
+            if(animalFromDb == null)
+            {
+                throw new NullReferenceException();
+            }
+            else
+            {
+                return animalFromDb;
+            }
         }
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
-        {            
+        {
             throw new NotImplementedException();
         }
 
         internal static void RemoveAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            Animal animalFromDb = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+            Room roomFromDb = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
+            if (animalFromDb == null)
+            {
+                throw new NullReferenceException();
+            }
+            else
+            {
+                db.Animals.DeleteOnSubmit(animalFromDb);
+                db.Rooms.DeleteOnSubmit(roomFromDb);
+                db.SubmitChanges();
+            }
+
         }
         
         // TODO: Animal Multi-Trait Search
