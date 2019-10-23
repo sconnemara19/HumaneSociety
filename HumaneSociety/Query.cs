@@ -166,7 +166,24 @@ namespace HumaneSociety
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-            throw new NotImplementedException();
+            switch (crudOperation)
+            {
+                case "create":
+                    throw new NotImplementedException();
+                    break;
+                case "read":
+                    throw new NotImplementedException();
+                    break;
+                case "update":
+                    throw new NotImplementedException();
+                    break;
+                case "delete":
+                    throw new NotImplementedException();
+                    break;
+                default:
+                    Console.WriteLine("Invalid input.");
+                    break;
+            }
         }
 
         // TODO: Animal CRUD Operations
@@ -192,30 +209,124 @@ namespace HumaneSociety
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
         {
-            throw new NotImplementedException();
+            Animal animalFromDb = GetAnimalByID(animalId);
+            if (updates.ContainsKey(1)) //Category
+            {
+                animalFromDb.Category = db.Categories.Where(c => c.Name == updates[1]).FirstOrDefault();
+            }
+            else if (updates.ContainsKey(2)) //Name
+            {
+                animalFromDb.Name = updates[2];
+            }
+            else if (updates.ContainsKey(3)) //Age
+            {
+                try
+                {
+                    animalFromDb.Age = Convert.ToInt32(updates[3]);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
+            }
+            else if (updates.ContainsKey(4)) //Demeanor
+            {
+                animalFromDb.Demeanor = updates[4];
+            }
+            else if (updates.ContainsKey(5)) //KidFriendly (Bool)
+            {
+                try
+                {
+                    animalFromDb.KidFriendly = Convert.ToBoolean(updates[5]);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
+            }
+            else if (updates.ContainsKey(6)) //PetFriendly (Bool)
+            {
+                try
+                {
+                    animalFromDb.PetFriendly = Convert.ToBoolean(updates[6]);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
+            }
+            else if (updates.ContainsKey(7)) //Weight
+            {
+                try
+                {
+                    animalFromDb.Weight = Convert.ToInt32(updates[7]);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
+            }
+            db.SubmitChanges();
         }
 
         internal static void RemoveAnimal(Animal animal)
         {
-            Animal animalFromDb = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
-            Room roomFromDb = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
-            if (animalFromDb == null)
-            {
-                throw new NullReferenceException();
-            }
-            else
-            {
-                db.Animals.DeleteOnSubmit(animalFromDb);
-                db.Rooms.DeleteOnSubmit(roomFromDb);
-                db.SubmitChanges();
-            }
-
+            Animal animalFromDb = GetAnimalByID(animal.AnimalId);
+            db.Animals.DeleteOnSubmit(animalFromDb);
+            db.SubmitChanges();
         }
         
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            throw new NotImplementedException();
+            IQueryable<Animal> animals;
+            if (updates.ContainsKey(1)) //Category
+            {
+                var category = db.Categories.Where(c => c.Name == updates[1]).FirstOrDefault();
+                return db.Animals.Where(a => a.CategoryId == category.CategoryId);
+            }
+            else if (updates.ContainsKey(2)) //Name
+            {
+                return db.Animals.Where(a => a.Name == updates[2]);
+            }
+            else if (updates.ContainsKey(3)) //Age
+            {
+                try
+                {
+                    int age = Convert.ToInt32(updates[3]);
+                    return db.Animals.Where(a => a.Age == age);
+
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
+            }
+            else if (updates.ContainsKey(4)) //Demeanor
+            {
+                return db.Animals.Where(a => a.Demeanor == updates[4]);
+            }
+            else if (updates.ContainsKey(5)) //KidFriendly (Bool)
+            {
+                return db.Animals.Where(a => a.KidFriendly == true);
+            }
+            else if (updates.ContainsKey(6)) //PetFriendly (Bool)
+            {
+                return db.Animals.Where(a => a.PetFriendly == true);
+            }
+            else if (updates.ContainsKey(7)) //Weight
+            {
+                try
+                {
+                    int weight = Convert.ToInt32(updates[7]);
+                    return db.Animals.Where(a => a.Weight == weight);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
+            }
+            return null;
         }
          
         // TODO: Misc Animal Things
@@ -243,7 +354,7 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            
+
             Adoption newAdoption = new Adoption();
             newAdoption.AnimalId = animal.AnimalId;
             newAdoption.ClientId = client.ClientId;
@@ -253,11 +364,13 @@ namespace HumaneSociety
 
             db.Adoptions.InsertOnSubmit(newAdoption);
             db.SubmitChanges();
+           
+
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            return db.Adoptions.Where(a => a.ApprovalStatus == "Pending");
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
@@ -273,7 +386,7 @@ namespace HumaneSociety
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            return db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);
         }
 
         internal static void UpdateShot(string shotName, Animal animal)

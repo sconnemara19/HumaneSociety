@@ -11,26 +11,8 @@ namespace HumaneSociety
         static void Main(string[] args)
         {
             //PointOfEntry.Run();
-<<<<<<< HEAD
-            Query.GetClients();
-=======
-            //Animal animal = new Animal()
-            //{
-            //    Name = "Dawg",
-            //    Weight = 28,
-            //    Age = 1,
-            //    Demeanor = "Friendly",
-            //    KidFriendly = true,
-            //    PetFriendly = true,
-            //    Gender = "Female",
-            //    AdoptionStatus = "Available",
-            //    CategoryId = 1,
-            //    DietPlanId = 2,
-            //    EmployeeId = 2
-            //};
-            Animal patrice = Query.GetAnimalByID(5);
-            Query.RemoveAnimal(patrice);
->>>>>>> c7881fb108bb2f52689624a2b2be32323a033327
+            Animal Dawg = Query.GetAnimalByID(6);
+            Query.RemoveAnimal(Dawg);
         }
     }
 }
