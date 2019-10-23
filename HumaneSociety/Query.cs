@@ -174,12 +174,6 @@ namespace HumaneSociety
         {
             db.Animals.InsertOnSubmit(animal);
             db.SubmitChanges();
-<<<<<<< HEAD
-            
-           
-
-=======
->>>>>>> c7881fb108bb2f52689624a2b2be32323a033327
         }
 
         internal static Animal GetAnimalByID(int id)
@@ -200,7 +194,7 @@ namespace HumaneSociety
             Animal animalFromDb = GetAnimalByID(animalId);
             if (updates.ContainsKey(1)) //Category
             {
-                int category;
+
             }
             else if (updates.ContainsKey(2)) //Name
             {
