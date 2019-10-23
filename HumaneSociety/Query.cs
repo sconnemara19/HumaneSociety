@@ -166,7 +166,24 @@ namespace HumaneSociety
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-            throw new NotImplementedException();
+            switch (crudOperation)
+            {
+                case "update":
+                    throw new NotImplementedException();
+                    break;
+                case "read":
+                    throw new NotImplementedException();
+                    break;
+                case "delete":
+                    throw new NotImplementedException();
+                    break;
+                case "create":
+                    throw new NotImplementedException();
+                    break;
+                default:
+                    Console.WriteLine("Invalid input.");
+                    break;
+            }
         }
 
         // TODO: Animal CRUD Operations
@@ -254,16 +271,61 @@ namespace HumaneSociety
         internal static void RemoveAnimal(Animal animal)
         {
             Animal animalFromDb = GetAnimalByID(animal.AnimalId);
-            Room roomFromDb = GetRoom(animal.AnimalId);
             db.Animals.DeleteOnSubmit(animalFromDb);
-            db.Rooms.DeleteOnSubmit(roomFromDb);
             db.SubmitChanges();
         }
         
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            throw new NotImplementedException();
+            IQueryable<Animal> animals;
+            if (updates.ContainsKey(1)) //Category
+            {
+                var category = db.Categories.Where(c => c.Name == updates[1]).FirstOrDefault();
+                return db.Animals.Where(a => a.CategoryId == category.CategoryId);
+            }
+            else if (updates.ContainsKey(2)) //Name
+            {
+                return db.Animals.Where(a => a.Name == updates[2]);
+            }
+            else if (updates.ContainsKey(3)) //Age
+            {
+                try
+                {
+                    int age = Convert.ToInt32(updates[3]);
+                    return db.Animals.Where(a => a.Age == age);
+
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
+            }
+            else if (updates.ContainsKey(4)) //Demeanor
+            {
+                return db.Animals.Where(a => a.Demeanor == updates[4]);
+            }
+            else if (updates.ContainsKey(5)) //KidFriendly (Bool)
+            {
+                return db.Animals.Where(a => a.KidFriendly == true);
+            }
+            else if (updates.ContainsKey(6)) //PetFriendly (Bool)
+            {
+                return db.Animals.Where(a => a.PetFriendly == true);
+            }
+            else if (updates.ContainsKey(7)) //Weight
+            {
+                try
+                {
+                    int weight = Convert.ToInt32(updates[7]);
+                    return db.Animals.Where(a => a.Weight == weight);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
+            }
+            return null;
         }
          
         // TODO: Misc Animal Things
