@@ -399,7 +399,13 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-            throw new NotImplementedException();
+            Shot shotFromDb = db.Shots.Where(s => s.Name == shotName).FirstOrDefault();
+            AnimalShot animalShot = new AnimalShot();
+            animalShot.AnimalId = animal.AnimalId;
+            animalShot.ShotId = shotFromDb.ShotId;
+            animalShot.DateReceived = DateTime.Today;
+            db.AnimalShots.InsertOnSubmit(animalShot);
+            db.SubmitChanges();
         }
     }
 }

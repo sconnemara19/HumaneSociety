@@ -10,9 +10,7 @@ namespace HumaneSociety
     {
         static void Main(string[] args)
         {
-            //PointOfEntry.Run();
-            Animal Dawg = Query.GetAnimalByID(6);
-            Query.RemoveAnimal(Dawg);
+            PointOfEntry.Run();
         }
     }
 }
