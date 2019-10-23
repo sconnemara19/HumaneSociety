@@ -168,16 +168,16 @@ namespace HumaneSociety
         {
             switch (crudOperation)
             {
-                case "update":
+                case "create":
                     throw new NotImplementedException();
                     break;
                 case "read":
                     throw new NotImplementedException();
                     break;
-                case "delete":
+                case "update":
                     throw new NotImplementedException();
                     break;
-                case "create":
+                case "delete":
                     throw new NotImplementedException();
                     break;
                 default:
@@ -358,7 +358,7 @@ namespace HumaneSociety
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            return db.Adoptions.Where(a => a.ApprovalStatus == "Pending");
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
@@ -374,7 +374,7 @@ namespace HumaneSociety
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            return db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
