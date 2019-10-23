@@ -71,7 +71,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void UpdateClient(Client clientWithUpdates)
+        internal static void UpdateClient(Client clientWithUpdates) 
         {
             // find corresponding Client from Db
             Client clientFromDb = null;
@@ -203,23 +203,29 @@ namespace HumaneSociety
         // TODO: Misc Animal Things
         internal static int GetCategoryId(string categoryName)
         {
-            throw new NotImplementedException();
+            Category category = db.Categories.Where(c => c.Name == categoryName).Single();
+
+            return category.CategoryId;
         }
         
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            Room room = db.Rooms.Where(r => r.AnimalId == animalId).Single();
+
+            return room;
         }
         
         internal static int GetDietPlanId(string dietPlanName)
         {
-            throw new NotImplementedException();
+            DietPlan dietPlan = db.DietPlans.Where(d => d.Name == dietPlanName).Single();
+
+            return dietPlan.DietPlanId;
         }
 
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
+            
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
