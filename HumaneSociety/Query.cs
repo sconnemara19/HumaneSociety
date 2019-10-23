@@ -174,12 +174,7 @@ namespace HumaneSociety
         {
             db.Animals.InsertOnSubmit(animal);
             db.SubmitChanges();
-<<<<<<< HEAD
-            
-           
 
-=======
->>>>>>> c7881fb108bb2f52689624a2b2be32323a033327
         }
 
         internal static Animal GetAnimalByID(int id)
@@ -249,6 +244,15 @@ namespace HumaneSociety
         internal static void Adopt(Animal animal, Client client)
         {
             
+            Adoption newAdoption = new Adoption();
+            newAdoption.AnimalId = animal.AnimalId;
+            newAdoption.ClientId = client.ClientId;
+            newAdoption.ApprovalStatus = "pending";
+            newAdoption.AdoptionFee = 20;
+            newAdoption.PaymentCollected = false;
+
+            db.Adoptions.InsertOnSubmit(newAdoption);
+            db.SubmitChanges();
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
