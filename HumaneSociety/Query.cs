@@ -194,57 +194,70 @@ namespace HumaneSociety
             Animal animalFromDb = GetAnimalByID(animalId);
             if (updates.ContainsKey(1)) //Category
             {
-
+                animalFromDb.Category = db.Categories.Where(c => c.Name == updates[1]).FirstOrDefault();
             }
             else if (updates.ContainsKey(2)) //Name
             {
-
+                animalFromDb.Name = updates[2];
             }
             else if (updates.ContainsKey(3)) //Age
             {
-
+                try
+                {
+                    animalFromDb.Age = Convert.ToInt32(updates[3]);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
             }
             else if (updates.ContainsKey(4)) //Demeanor
             {
-
+                animalFromDb.Demeanor = updates[4];
             }
             else if (updates.ContainsKey(5)) //KidFriendly (Bool)
             {
-
+                try
+                {
+                    animalFromDb.KidFriendly = Convert.ToBoolean(updates[5]);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
             }
             else if (updates.ContainsKey(6)) //PetFriendly (Bool)
             {
-
+                try
+                {
+                    animalFromDb.PetFriendly = Convert.ToBoolean(updates[6]);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
             }
             else if (updates.ContainsKey(7)) //Weight
             {
-
+                try
+                {
+                    animalFromDb.Weight = Convert.ToInt32(updates[7]);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid input.");
+                }
             }
-            else if (updates.ContainsKey(8)) //ID
-            {
-
-            }
-            else
-            {
-                throw new NullReferenceException();
-            }
+            db.SubmitChanges();
         }
 
         internal static void RemoveAnimal(Animal animal)
         {
             Animal animalFromDb = GetAnimalByID(animal.AnimalId);
-            Room roomFromDb = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
-            if (animalFromDb == null)
-            {
-                throw new NullReferenceException();
-            }
-            else
-            {
-                db.Animals.DeleteOnSubmit(animalFromDb);
-                db.Rooms.DeleteOnSubmit(roomFromDb);
-                db.SubmitChanges();
-            }
-
+            Room roomFromDb = GetRoom(animal.AnimalId);
+            db.Animals.DeleteOnSubmit(animalFromDb);
+            db.Rooms.DeleteOnSubmit(roomFromDb);
+            db.SubmitChanges();
         }
         
         // TODO: Animal Multi-Trait Search
@@ -278,7 +291,7 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            
+            throw new NotImplementedException();
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
